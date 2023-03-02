@@ -49,6 +49,14 @@
             {
                 for (int j = 0; j < 9; j++)
                 {
+                    if (board[i, j] == '.')
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                    }
                     Console.Write(board[i, j] + " ");
                 }
                 Console.WriteLine();
@@ -56,10 +64,39 @@
             Console.WriteLine();
         }
 
+        public static void PrintSudoku(char[,] unsolved, char[,] solved)
+        {
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    if (solved[i, j] == unsolved[i, j])
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    }
+                    Console.Write(solved[i, j] + " ");
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Green;
+        }
+
         public static void SolveSudoku(char[,] board)
         {
-            FillSudoku(board, 0, 0);
-            PrintSudoku(board);
+            var unsolved = board.Clone();
+            if (FillSudoku(board, 0, 0))
+            {
+                PrintSudoku((char[,])unsolved, board);
+            }
+            else
+            {
+                Console.WriteLine("Entered sudoku can't be solved! Try again!");
+            }
         }
 
         public static bool FillSudoku(char[,] board, int row, int col)
